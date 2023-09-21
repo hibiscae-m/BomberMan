@@ -16,12 +16,13 @@ void Game::run() {
     sf::Time timeSinceLastUpdate = sf::Time::Zero;
     sf::Time framePerSecond = sf::seconds(WindowSettings::TIME_PER_FRAME);
     GameManager::loadMap(GameManager::MAP::First);
+    GameManager::initializePlayers();
     while (window.isOpen()) {
         timeSinceLastUpdate += gameClock.restart();
         if (timeSinceLastUpdate > framePerSecond) {
             timeSinceLastUpdate -= framePerSecond;
             processEvents();
-            player.update(framePerSecond);
+            GameManager::update(framePerSecond);
             draw();
         }
     }
@@ -39,6 +40,6 @@ void Game::processEvents() {
 void Game::draw() {
     window.clear();
     GameManager::drawMap(window);
-    player.draw(window);
+    GameManager::drawPlayers(window);
     window.display();
 }

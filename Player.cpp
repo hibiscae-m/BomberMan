@@ -5,16 +5,12 @@
 #include "Player.h"
 #include "ResourcesManager.h"
 
-Player::Player() {
-    initializeSprite();
-}
-
-void Player::initializeSprite() {
+Player::Player(sf::Vector2f position) {
     sprite.setTexture(ResourcesManager<sf::Texture>::getResource("resources/player.png"));
     sprite.setTextureRect(sf::IntRect({animation.x * SPRITE_SIZE.x, animation.y * SPRITE_SIZE.y},
                                       {SPRITE_SIZE.x, SPRITE_SIZE.y}));
     sprite.setOrigin(sprite.getGlobalBounds().width / 2, sprite.getGlobalBounds().height / 2);
-    sprite.setPosition({100, 100});
+    sprite.setPosition(position);
 }
 
 void Player::draw(sf::RenderWindow& window) {

@@ -16,7 +16,6 @@ private:
     void processEvents();
     void draw();
     sf::RenderWindow window;
-    Player player;
 };
 
 

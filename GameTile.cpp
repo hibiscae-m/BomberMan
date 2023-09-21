@@ -16,3 +16,7 @@ GameTile::GameTile(std::string_view textureLocation, int sizePerTile, int tilePo
 void GameTile::draw(sf::RenderWindow& window) {
     window.draw(sprite);
 }
+
+sf::Vector2f GameTile::getPosition() {
+    return sprite.getPosition();
+}

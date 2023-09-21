@@ -9,11 +9,10 @@
 
 class Player {
 public:
-    Player();
+    explicit Player(sf::Vector2f position = {100, 100});
     void draw(sf::RenderWindow& window);
     void update(sf::Time deltaTime);
 private:
-    void initializeSprite();
     void move(sf::Time deltaTime);
     void playAnimation(sf::Time deltaTime);
     bool isIdle = true;

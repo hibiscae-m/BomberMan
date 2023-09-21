@@ -15,6 +15,7 @@ public:
              int posX, int posY, bool passable);
     void draw(sf::RenderWindow& window);
     bool getIfPassable() const { return isPassable; };
+    sf::Vector2f getPosition();
 private:
     bool isPassable;
     sf::Sprite sprite;
