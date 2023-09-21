@@ -12,12 +12,23 @@ void GameManager::drawMap(sf::RenderWindow &window) {
     }
 }
 
-void GameManager::loadMap(std::string_view mapLocation, std::string_view tileSetLocation, int sizePerTile) {
+void GameManager::loadMap(int map) {
     gameTiles.clear();
-    for (int i = 0; i < MapFirst::getMapSize().y; i++) {
-        for (int j = 0; j < MapFirst::getMapSize().x; j++) {
+    std::string_view tileSetLocation{};
+    int sizePerTile{};
+    switch (map) {
+        case MAP::First:
+            mapLoaded = MapFirst::getMap();
+            tileSetLocation = MapFirst::getTilesetLocation();
+            sizePerTile = MapFirst::getSizePerTile();
+            break;
+        default:
+            break;
+    }
+    for (int i = 0; i < mapLoaded.size(); i++) {
+        for (int j = 0; j < mapLoaded[i].size(); j++) {
             gameTiles.push_back(std::make_unique<GameTile>(tileSetLocation, sizePerTile,
-                                                           MapFirst::MAP[i][j], 0,
+                                                           mapLoaded[i][j], 0,
                                                            j * sizePerTile, i * sizePerTile, true));
         }
     }

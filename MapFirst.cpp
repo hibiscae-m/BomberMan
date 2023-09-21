@@ -21,3 +21,11 @@ std::vector<std::vector<int>> MapFirst::getMap() {
 sf::Vector2i MapFirst::getMapSize() {
     return { WIDTH, HEIGHT };
 }
+
+std::string_view MapFirst::getTilesetLocation() {
+    return TILESET_LOCATION;
+}
+
+int MapFirst::getSizePerTile() {
+    return SIZE_PER_TILE;
+}

@@ -13,12 +13,17 @@
 #include "WindowSettings.h"
 
 static std::vector<std::unique_ptr<GameTile>> gameTiles;
+static std::vector<std::vector<int>> mapLoaded;
 
 class GameManager {
 public:
     GameManager() = delete;
-    static void loadMap(std::string_view mapLocation, std::string_view tileSetLocation, int sizePerTile);
+    static void loadMap(int map);
     static void drawMap(sf::RenderWindow& window);
+    enum MAP {
+        First,
+        Second
+    };
 };
 
 

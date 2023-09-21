@@ -14,12 +14,15 @@ class MapFirst {
 private:
     static constexpr int WIDTH = 15;
     static constexpr int HEIGHT = 13;
-    static constexpr std::string_view MAP_LOCATION = "resources/map1.txt";
     static constexpr std::string_view TILESET_LOCATION = "resources/map1_tileset.png";
+    static constexpr int SIZE_PER_TILE = 32;
 public:
     MapFirst() = delete;
     static std::vector<std::vector<int>> getMap();
+    static std::string_view getTilesetLocation();
+    static int getSizePerTile();
     static sf::Vector2i getMapSize();
+private:
     static constexpr int MAP[HEIGHT][WIDTH] = {
             {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
             {0, 2, 2, 2, 2, 1, 1, 2, 1, 2, 2, 2, 2, 2, 0},

@@ -15,7 +15,7 @@ void Game::run() {
     sf::Clock gameClock;
     sf::Time timeSinceLastUpdate = sf::Time::Zero;
     sf::Time framePerSecond = sf::seconds(WindowSettings::TIME_PER_FRAME);
-    GameManager::loadMap("resources/map1.txt", "resources/map1_tileset.png", 32);
+    GameManager::loadMap(GameManager::MAP::First);
     while (window.isOpen()) {
         timeSinceLastUpdate += gameClock.restart();
         if (timeSinceLastUpdate > framePerSecond) {
