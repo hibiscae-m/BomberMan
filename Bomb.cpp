@@ -5,10 +5,8 @@
 #include "Bomb.h"
 #include "ResourcesManager.h"
 #include "GameManager.h"
-#include <iostream>
 
 Bomb::Bomb(int indexPositionX, int indexPositionY) {
-    std::cout << "Bomb placed" << std::endl;
     sprite.setTexture(ResourcesManager<sf::Texture>::getResource("resources/bomb.png"));
     sprite.setOrigin(sprite.getGlobalBounds().width / 2, sprite.getGlobalBounds().height / 2);
     currentPositionIndexes = {indexPositionX, indexPositionY };
@@ -17,4 +15,22 @@ Bomb::Bomb(int indexPositionX, int indexPositionY) {
 
 void Bomb::draw(sf::RenderWindow &window) {
     window.draw(sprite);
+}
+
+void Bomb::update(sf::Time deltaTime) {
+    timeSinceSpawned += deltaTime;
+    if (timeSinceSpawned >= lifetime) {
+        destructed = true;
+    }
+    if (timeSinceSpawned > lifetime / 2.f) {
+        sprite.setColor(sf::Color::Red);
+    }
+}
+
+sf::Vector2i Bomb::getCurrentPositionIndexes() {
+    return currentPositionIndexes;
+}
+
+bool Bomb::isDestructed() const {
+    return destructed;
 }

@@ -23,6 +23,7 @@ void Game::run() {
             timeSinceLastUpdate -= framePerSecond;
             processEvents();
             GameManager::update(framePerSecond);
+            GameManager::clear();
             draw();
         }
     }

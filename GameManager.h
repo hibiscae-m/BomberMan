@@ -32,6 +32,7 @@ public:
     static void drawBombs(sf::RenderWindow& window);
     static void placeBomb(int indexPositionX, int indexPositionY);
     static void update(sf::Time deltaTime);
+    static void clear();
     static bool isNextCaseFree(sf::Vector2i indexes, int direction);
     static sf::Vector2f translatePositionIndexes(int positionIndexX, int positionIndexY);
     enum MAP {

@@ -67,6 +67,9 @@ void GameManager::update(sf::Time deltaTime) {
     for (auto& player: players) {
         player->update(deltaTime);
     }
+    for (auto& bomb: bombs) {
+        bomb->update(deltaTime);
+    }
 }
 
 bool GameManager::isNextCaseFree(sf::Vector2i indexes, int direction) {
@@ -109,4 +112,18 @@ void GameManager::placeBomb(int indexPositionX, int indexPositionY) {
     }
     bombs_locations.emplace_back(indexPositionX, indexPositionY);
     bombs.push_back(std::make_unique<Bomb>(indexPositionX, indexPositionY));
+}
+
+void GameManager::clear() {
+    for (auto i = 0u; i < bombs.size(); i++) {
+        if (bombs[i]->isDestructed()) {
+            sf::Vector2i positionIndexes = bombs[i]->getCurrentPositionIndexes();
+            for (auto j = 0u; j < bombs_locations.size(); j++) {
+                if (bombs_locations[j] == positionIndexes) {
+                    bombs_locations.erase(bombs_locations.begin() + j);
+                }
+            }
+            bombs.erase(bombs.begin() + i);
+        }
+    }
 }

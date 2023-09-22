@@ -12,9 +12,15 @@ public:
     Bomb() = delete;
     Bomb(int indexPositionX, int indexPositionY);
     void draw(sf::RenderWindow& window);
+    void update(sf::Time deltaTime);
+    sf::Vector2i getCurrentPositionIndexes();
+    bool isDestructed() const;
 private:
     sf::Sprite sprite;
     sf::Vector2i currentPositionIndexes;
+    sf::Time lifetime = sf::seconds(2);
+    sf::Time timeSinceSpawned = sf::Time::Zero;
+    bool destructed = false;
 };
 
 
