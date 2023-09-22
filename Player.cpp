@@ -42,14 +42,14 @@ void Player::move() {
     if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up)) {
         isTravelling = true;
         animation.y = Direction::Up;
-        if (GameManager::isNextCaseFree(currentPositionIndexes, GameManager::DIRECTIONS::Up)) {
+        if (GameManager::isCaseFree({currentPositionIndexes.x, currentPositionIndexes.y - 1})) {
             currentPositionIndexes = { currentPositionIndexes.x, currentPositionIndexes.y - 1 };
         }
     }
     else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Down)) {
         isTravelling = true;
         animation.y = Direction::Down;
-        if (GameManager::isNextCaseFree(currentPositionIndexes, GameManager::DIRECTIONS::Down)) {
+        if (GameManager::isCaseFree({currentPositionIndexes.x, currentPositionIndexes.y + 1})) {
             currentPositionIndexes = { currentPositionIndexes.x, currentPositionIndexes.y + 1 };
         }
     }
@@ -57,7 +57,7 @@ void Player::move() {
         isTravelling = true;
         animation.y = Direction::Side;
         sprite.setScale(-1.f, 1.f);
-        if (GameManager::isNextCaseFree(currentPositionIndexes, GameManager::DIRECTIONS::Left)) {
+        if (GameManager::isCaseFree({currentPositionIndexes.x - 1, currentPositionIndexes.y})) {
             currentPositionIndexes = { currentPositionIndexes.x - 1, currentPositionIndexes.y };
         }
     }
@@ -65,7 +65,7 @@ void Player::move() {
         isTravelling = true;
         animation.y = Direction::Side;
         sprite.setScale(1.f, 1.f);
-        if (GameManager::isNextCaseFree(currentPositionIndexes, GameManager::DIRECTIONS::Right)) {
+        if (GameManager::isCaseFree({currentPositionIndexes.x + 1, currentPositionIndexes.y})) {
             currentPositionIndexes = { currentPositionIndexes.x + 1, currentPositionIndexes.y };
         }
     }

@@ -39,7 +39,7 @@ public:
     static void updateMap(sf::Vector2f position, int caseType);
     static void update(sf::Time deltaTime);
     static void clear();
-    static bool isNextCaseFree(sf::Vector2i indexes, int direction);
+    static bool isCaseFree(sf::Vector2i indexes);
     static sf::Vector2f translatePositionIndexes(int positionIndexX, int positionIndexY);
     enum MAP {
         First,

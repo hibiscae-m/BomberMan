@@ -6,75 +6,52 @@
 #include "ResourcesManager.h"
 #include "GameManager.h"
 
-Explosion::Explosion(int indexPositionX, int indexPositionY, int counter, int direction) {
+Explosion::Explosion(int indexPositionX, int indexPositionY, int counter, int direction) :
+    currentPositionIndexes(indexPositionX, indexPositionY)
+{
     sprite.setTexture(ResourcesManager<sf::Texture>::getResource("resources/explosion.png"));
     sprite.setTextureRect(sf::IntRect({SPRITE_SIZE.x * counter, 0},{SPRITE_SIZE.x, SPRITE_SIZE.y}));
     sprite.setOrigin(sprite.getGlobalBounds().width / 2, sprite.getGlobalBounds().height / 2);
-    currentPositionIndexes = {indexPositionX, indexPositionY };
+    sprite.setPosition(GameManager::translatePositionIndexes(currentPositionIndexes.x, currentPositionIndexes.y));
+    GameManager::damageIndex(currentPositionIndexes.x, currentPositionIndexes.y);
     counter++;
-    if (counter == 1) {
-        if (GameManager::isNextCaseFree({indexPositionX, indexPositionY}, GameManager::DIRECTIONS::Up)) {
-            GameManager::placeExplosion(indexPositionX, indexPositionY, counter, GameManager::DIRECTIONS::Up);
-        }
-        else {
-            GameManager::damageIndex(indexPositionX, indexPositionY - 1);
-        }
-        if (GameManager::isNextCaseFree({indexPositionX, indexPositionY}, GameManager::DIRECTIONS::Down)) {
-            GameManager::placeExplosion(indexPositionX, indexPositionY, counter, GameManager::DIRECTIONS::Down);
-        }
-        else {
-            GameManager::damageIndex(indexPositionX, indexPositionY + 1);
-        }
-        if (GameManager::isNextCaseFree({indexPositionX, indexPositionY}, GameManager::DIRECTIONS::Left)) {
-            GameManager::placeExplosion(indexPositionX, indexPositionY, counter, GameManager::DIRECTIONS::Left);
-        }
-        else {
-            GameManager::damageIndex(indexPositionX - 1, indexPositionY);
-        }
-        if (GameManager::isNextCaseFree({indexPositionX, indexPositionY}, GameManager::DIRECTIONS::Right)) {
-            GameManager::placeExplosion(indexPositionX, indexPositionY, counter, GameManager::DIRECTIONS::Right);
-        }
-        else {
-            GameManager::damageIndex(indexPositionX + 1, indexPositionY);
-        }
-    }
-    else {
-        if (direction == GameManager::DIRECTIONS::Up) {
-            indexPositionY--;
-        }
-        if (direction == GameManager::DIRECTIONS::Down) {
+    sf::Vector2i nextPositionIndexes = currentPositionIndexes;
+    switch (direction) {
+        case GameManager::DIRECTIONS::Up:
+            sprite.setRotation(0);
+            nextPositionIndexes += { 0, -1 };
+            break;
+        case GameManager::DIRECTIONS::Down:
             sprite.setRotation(180);
-            indexPositionY++;
-        }
-        if (direction == GameManager::DIRECTIONS::Left) {
+            nextPositionIndexes += { 0, 1 };
+            break;
+        case GameManager::DIRECTIONS::Left:
             sprite.setRotation(-90);
-            indexPositionX--;
-        }
-        if (direction == GameManager::DIRECTIONS::Right) {
+            nextPositionIndexes += { -1, 0};
+            break;
+        case GameManager::DIRECTIONS::Right:
             sprite.setRotation(90);
-            indexPositionX++;
-        }
-        if (counter <= 2) {
-            if (GameManager::isNextCaseFree({indexPositionX, indexPositionY}, direction)) {
-                GameManager::placeExplosion(indexPositionX, indexPositionY, counter, direction);
+            nextPositionIndexes += { 1, 0};
+            break;
+    }
+    switch (counter) {
+        case 1:
+            GameManager::placeExplosion(currentPositionIndexes.x, currentPositionIndexes.y - 1, counter, GameManager::DIRECTIONS::Up);
+            GameManager::placeExplosion(currentPositionIndexes.x, currentPositionIndexes.y + 1, counter, GameManager::DIRECTIONS::Down);
+            GameManager::placeExplosion(currentPositionIndexes.x - 1, currentPositionIndexes.y, counter, GameManager::DIRECTIONS::Left);
+            GameManager::placeExplosion(currentPositionIndexes.x + 1, currentPositionIndexes.y, counter, GameManager::DIRECTIONS::Right);
+            break;
+        case 2:
+            if (GameManager::isCaseFree(nextPositionIndexes)) {
+                GameManager::placeExplosion(nextPositionIndexes.x, nextPositionIndexes.y, counter, direction);
             }
             else {
-                if (direction == GameManager::DIRECTIONS::Up) {
-                    GameManager::damageIndex(indexPositionX, indexPositionY - 1);
-                }
-                if (direction == GameManager::DIRECTIONS::Down) {
-                    GameManager::damageIndex(indexPositionX, indexPositionY + 1);
-                }
-                if (direction == GameManager::DIRECTIONS::Left) {
-                    GameManager::damageIndex(indexPositionX - 1, indexPositionY);
-                }
-                if (direction == GameManager::DIRECTIONS::Right) {
-                    GameManager::damageIndex(indexPositionX + 1, indexPositionY);
-                }
+                GameManager::damageIndex(nextPositionIndexes.x, nextPositionIndexes.y);
             }
-        }
+            break;
+        default:
+            break;
     }
-    sprite.setPosition(GameManager::translatePositionIndexes(indexPositionX, indexPositionY));
 }
 
 void Explosion::draw(sf::RenderWindow &window) {

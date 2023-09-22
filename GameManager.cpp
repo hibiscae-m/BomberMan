@@ -77,30 +77,9 @@ void GameManager::update(sf::Time deltaTime) {
     }
 }
 
-bool GameManager::isNextCaseFree(sf::Vector2i indexes, int direction) {
-    switch (direction) {
-        case DIRECTIONS::Up:
-            if (mapLoaded[indexes.y - 1][indexes.x] != 2) {
-                return false;
-            }
-            break;
-        case DIRECTIONS::Down:
-            if (mapLoaded[indexes.y + 1][indexes.x] != 2) {
-                return false;
-            }
-            break;
-        case DIRECTIONS::Left:
-            if (mapLoaded[indexes.y][indexes.x - 1] != 2) {
-                return false;
-            }
-            break;
-        case DIRECTIONS::Right:
-            if (mapLoaded[indexes.y][indexes.x + 1] != 2) {
-                return false;
-            }
-            break;
-        default:
-            return false;
+bool GameManager::isCaseFree(sf::Vector2i indexes) {
+    if (mapLoaded[indexes.y][indexes.x] != 2) {
+        return false;
     }
     return true;
 }
@@ -145,7 +124,12 @@ void GameManager::drawExplosions(sf::RenderWindow &window) {
 }
 
 void GameManager::placeExplosion(int indexPositionX, int indexPositionY, int counter, int direction) {
-    explosions.push_back(std::make_unique<Explosion>(indexPositionX, indexPositionY, counter, direction));
+    if (isCaseFree({indexPositionX, indexPositionY})) {
+        explosions.push_back(std::make_unique<Explosion>(indexPositionX, indexPositionY, counter, direction));
+    }
+    else {
+        damageIndex(indexPositionX, indexPositionY);
+    }
 }
 
 void GameManager::damageIndex(int positionIndexX, int positionIndexY) {
