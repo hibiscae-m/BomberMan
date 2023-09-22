@@ -15,6 +15,7 @@ public:
     void update(sf::Time deltaTime);
     sf::Vector2i getCurrentPositionIndexes();
     bool isDestructed() const;
+    void callDestruction();
 private:
     sf::Sprite sprite;
     sf::Vector2i currentPositionIndexes;

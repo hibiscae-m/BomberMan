@@ -36,7 +36,7 @@ void GameTile::update(sf::Time deltaTime) {
     if (life == 1) {
         sprite.setColor(sf::Color::Red);
     }
-    if (life == 0) {
+    if (life <= 0) {
         GameManager::updateMap(sprite.getPosition(), GameManager::CASE_TYPE::Passable);
     }
 }

@@ -35,3 +35,7 @@ sf::Vector2i Bomb::getCurrentPositionIndexes() {
 bool Bomb::isDestructed() const {
     return destructed;
 }
+
+void Bomb::callDestruction() {
+    timeSinceSpawned = lifetime;
+}

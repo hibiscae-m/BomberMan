@@ -143,6 +143,12 @@ void GameManager::damageIndex(int positionIndexX, int positionIndexY) {
             }
         }
     }
+    sf::Vector2i damagingPosition = {positionIndexX, positionIndexY};
+    for (auto& bomb: bombs) {
+        if (bomb->getCurrentPositionIndexes() == damagingPosition) {
+            bomb->callDestruction();
+        }
+    }
 }
 
 void GameManager::updateMap(sf::Vector2f position, int caseType) {
