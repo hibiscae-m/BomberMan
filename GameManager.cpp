@@ -102,5 +102,11 @@ sf::Vector2f GameManager::translatePositionIndexes(int positionIndexX, int posit
 }
 
 void GameManager::placeBomb(int indexPositionX, int indexPositionY) {
+    for (auto bomb_location: bombs_locations) {
+        if (bomb_location.x == indexPositionX && bomb_location.y == indexPositionY) {
+            return;
+        }
+    }
+    bombs_locations.emplace_back(indexPositionX, indexPositionY);
     bombs.push_back(std::make_unique<Bomb>(indexPositionX, indexPositionY));
 }

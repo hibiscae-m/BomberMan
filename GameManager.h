@@ -16,6 +16,7 @@
 
 static std::vector<std::unique_ptr<Player>> players;
 static std::vector<std::unique_ptr<Bomb>> bombs;
+static std::vector<sf::Vector2i> bombs_locations;
 static std::vector<std::unique_ptr<GameTile>> gameTiles;
 static std::vector<std::vector<int>> mapLoaded;
 static sf::Vector2i mapSize;
