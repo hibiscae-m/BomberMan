@@ -35,6 +35,8 @@ public:
     static void drawExplosions(sf::RenderWindow& window);
     static void placeBomb(int indexPositionX, int indexPositionY);
     static void placeExplosion(int indexPositionX, int indexPositionY, int counter = 0, int direction = 0);
+    static void damageIndex(int positionIndexX, int positionIndexY);
+    static void updateMap(sf::Vector2f position, int caseType);
     static void update(sf::Time deltaTime);
     static void clear();
     static bool isNextCaseFree(sf::Vector2i indexes, int direction);
@@ -48,6 +50,11 @@ public:
         Down,
         Left,
         Right
+    };
+    enum CASE_TYPE {
+        Indestructible,
+        Breakable,
+        Passable
     };
 };
 

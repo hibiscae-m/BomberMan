@@ -16,14 +16,26 @@ Explosion::Explosion(int indexPositionX, int indexPositionY, int counter, int di
         if (GameManager::isNextCaseFree({indexPositionX, indexPositionY}, GameManager::DIRECTIONS::Up)) {
             GameManager::placeExplosion(indexPositionX, indexPositionY, counter, GameManager::DIRECTIONS::Up);
         }
+        else {
+            GameManager::damageIndex(indexPositionX, indexPositionY - 1);
+        }
         if (GameManager::isNextCaseFree({indexPositionX, indexPositionY}, GameManager::DIRECTIONS::Down)) {
             GameManager::placeExplosion(indexPositionX, indexPositionY, counter, GameManager::DIRECTIONS::Down);
+        }
+        else {
+            GameManager::damageIndex(indexPositionX, indexPositionY + 1);
         }
         if (GameManager::isNextCaseFree({indexPositionX, indexPositionY}, GameManager::DIRECTIONS::Left)) {
             GameManager::placeExplosion(indexPositionX, indexPositionY, counter, GameManager::DIRECTIONS::Left);
         }
+        else {
+            GameManager::damageIndex(indexPositionX - 1, indexPositionY);
+        }
         if (GameManager::isNextCaseFree({indexPositionX, indexPositionY}, GameManager::DIRECTIONS::Right)) {
             GameManager::placeExplosion(indexPositionX, indexPositionY, counter, GameManager::DIRECTIONS::Right);
+        }
+        else {
+            GameManager::damageIndex(indexPositionX + 1, indexPositionY);
         }
     }
     else {
@@ -45,6 +57,20 @@ Explosion::Explosion(int indexPositionX, int indexPositionY, int counter, int di
         if (counter <= 2) {
             if (GameManager::isNextCaseFree({indexPositionX, indexPositionY}, direction)) {
                 GameManager::placeExplosion(indexPositionX, indexPositionY, counter, direction);
+            }
+            else {
+                if (direction == GameManager::DIRECTIONS::Up) {
+                    GameManager::damageIndex(indexPositionX, indexPositionY - 1);
+                }
+                if (direction == GameManager::DIRECTIONS::Down) {
+                    GameManager::damageIndex(indexPositionX, indexPositionY + 1);
+                }
+                if (direction == GameManager::DIRECTIONS::Left) {
+                    GameManager::damageIndex(indexPositionX - 1, indexPositionY);
+                }
+                if (direction == GameManager::DIRECTIONS::Right) {
+                    GameManager::damageIndex(indexPositionX + 1, indexPositionY);
+                }
             }
         }
     }

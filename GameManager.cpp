@@ -36,8 +36,7 @@ void GameManager::loadMap(int map) {
             gameTiles.push_back(std::make_unique<GameTile>(tileSetLocation, sizePerTile,
                                                            mapLoaded[i][j], 0,
                                                            j * sizePerTile, i * sizePerTile));
-            positionsBuffer.emplace_back( gameTiles[gameTiles.size() - 1]->getPosition().x + static_cast<float>(sizePerTile) / 2,
-                                         gameTiles[gameTiles.size() - 1]->getPosition().y + static_cast<float>(sizePerTile) / 2 );
+            positionsBuffer.emplace_back(gameTiles[gameTiles.size() - 1]->getPosition().x, gameTiles[gameTiles.size() - 1]->getPosition().y);
         }
         availablePositions.push_back(positionsBuffer);
         positionsBuffer.clear();
@@ -72,6 +71,9 @@ void GameManager::update(sf::Time deltaTime) {
     }
     for (auto& explosion: explosions) {
         explosion->update(deltaTime);
+    }
+    for (auto& gameTile: gameTiles) {
+        gameTile->update(deltaTime);
     }
 }
 
@@ -144,4 +146,34 @@ void GameManager::drawExplosions(sf::RenderWindow &window) {
 
 void GameManager::placeExplosion(int indexPositionX, int indexPositionY, int counter, int direction) {
     explosions.push_back(std::make_unique<Explosion>(indexPositionX, indexPositionY, counter, direction));
+}
+
+void GameManager::damageIndex(int positionIndexX, int positionIndexY) {
+    for (auto& player: players) {
+
+    }
+    for (auto& gameTile: gameTiles) {
+        if (gameTile->getPosition() == GameManager::translatePositionIndexes(positionIndexX, positionIndexY)) {
+            if (gameTile->getType() == GameManager::CASE_TYPE::Breakable) {
+                gameTile->takeDamage();
+            }
+        }
+    }
+}
+
+void GameManager::updateMap(sf::Vector2f position, int caseType) {
+    for (auto i = 0u; i < gameTiles.size(); i++) {
+        if (gameTiles[i]->getPosition() == position) {
+            gameTiles[i]->changeType(caseType);
+            break;
+        }
+    }
+    for (auto i = 0u; i < availablePositions.size(); i++) {
+        for (auto j = 0u; j < availablePositions[i].size(); j++) {
+            if (availablePositions[i][j] == position) {
+                mapLoaded[i][j] = caseType;
+                break;
+            }
+        }
+    }
 }
