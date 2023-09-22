@@ -42,7 +42,7 @@ void Game::draw() {
     window.clear();
     GameManager::drawMap(window);
     GameManager::drawBombs(window);
-    GameManager::drawPlayers(window);
     GameManager::drawExplosions(window);
+    GameManager::drawPlayers(window);
     window.display();
 }

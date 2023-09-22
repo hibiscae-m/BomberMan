@@ -10,9 +10,16 @@
 class Player {
 public:
     Player() = delete;
-    Player(int indexPositionX, int indexPositionY);
+    Player(int indexPositionX, int indexPositionY,
+           sf::Keyboard::Key upButton = sf::Keyboard::Up,
+           sf::Keyboard::Key downButton = sf::Keyboard::Down,
+           sf::Keyboard::Key leftButton = sf::Keyboard::Left,
+           sf::Keyboard::Key rightButton = sf::Keyboard::Right,
+           sf::Keyboard::Key bombButton = sf::Keyboard::RShift);
     void draw(sf::RenderWindow& window);
     void update(sf::Time deltaTime);
+    void damaged();
+    sf::Vector2i getCurrentPositionIndexes();
 private:
     void move();
     void playAnimation(sf::Time deltaTime);
@@ -27,7 +34,17 @@ private:
     sf::Time travelTime = sf::milliseconds(200);
     sf::Time travelling = sf::Time::Zero;
     bool isTravelling = false;
-    sf::Clock clockTravel;
+
+    int life = 1;
+
+    sf::Keyboard::Key upButton;
+    sf::Keyboard::Key downButton;
+    sf::Keyboard::Key leftButton;
+    sf::Keyboard::Key rightButton;
+    sf::Keyboard::Key bombButton;
+
+    sf::Time bombCooldown = sf::milliseconds(100);
+    sf::Time lastBombPlaced = sf::Time::Zero;
 };
 
 

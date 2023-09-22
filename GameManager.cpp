@@ -45,7 +45,10 @@ void GameManager::loadMap(int map) {
 
 void GameManager::initializePlayers() {
     players.push_back(std::make_unique<Player>(1, 1));
-    //players.push_back(std::make_unique<Player>(mapSize.x - 2, mapSize.y - 2));
+    players.push_back(std::make_unique<Player>(mapSize.x - 2, mapSize.y - 2,
+                                               sf::Keyboard::Z, sf::Keyboard::S,
+                                               sf::Keyboard::Q, sf::Keyboard::D,
+                                               sf::Keyboard::LShift));
     //players.push_back(std::make_unique<Player>(1, mapSize.y - 2));
     //players.push_back(std::make_unique<Player>(mapSize.x - 2, 1));
 }
@@ -133,8 +136,11 @@ void GameManager::placeExplosion(int indexPositionX, int indexPositionY, int cou
 }
 
 void GameManager::damageIndex(int positionIndexX, int positionIndexY) {
+    sf::Vector2i damagingPosition = {positionIndexX, positionIndexY};
     for (auto& player: players) {
-
+        if (player->getCurrentPositionIndexes() == damagingPosition) {
+            player->damaged();
+        }
     }
     for (auto& gameTile: gameTiles) {
         if (gameTile->getPosition() == GameManager::translatePositionIndexes(positionIndexX, positionIndexY)) {
@@ -143,7 +149,6 @@ void GameManager::damageIndex(int positionIndexX, int positionIndexY) {
             }
         }
     }
-    sf::Vector2i damagingPosition = {positionIndexX, positionIndexY};
     for (auto& bomb: bombs) {
         if (bomb->getCurrentPositionIndexes() == damagingPosition) {
             bomb->callDestruction();
