@@ -14,16 +14,14 @@ public:
     void draw(sf::RenderWindow& window);
     void update(sf::Time deltaTime);
 private:
-    void move(sf::Time deltaTime);
+    void move();
     void playAnimation(sf::Time deltaTime);
-    bool isIdle = true;
     sf::Sprite sprite;
     const sf::Vector2i SPRITE_SIZE = {22, 35};
     enum Direction { Down, Side, Up };
     sf::Vector2i animation = {6, Direction::Down};
     sf::Time animationTimePerFrame = sf::seconds(1.f/7);
     sf::Time timeSinceLastUpdate = sf::Time::Zero;
-    float speed = 150.f;
     sf::Vector2i currentPositionIndexes;
 
     sf::Time travelTime = sf::milliseconds(200);

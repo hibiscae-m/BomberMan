@@ -46,14 +46,20 @@ void GameManager::loadMap(int map) {
 
 void GameManager::initializePlayers() {
     players.push_back(std::make_unique<Player>(1, 1));
-    players.push_back(std::make_unique<Player>(mapSize.x - 2, mapSize.y - 2));
-    players.push_back(std::make_unique<Player>(1, mapSize.y - 2));
-    players.push_back(std::make_unique<Player>(mapSize.x - 2, 1));
+    //players.push_back(std::make_unique<Player>(mapSize.x - 2, mapSize.y - 2));
+    //players.push_back(std::make_unique<Player>(1, mapSize.y - 2));
+    //players.push_back(std::make_unique<Player>(mapSize.x - 2, 1));
 }
 
 void GameManager::drawPlayers(sf::RenderWindow &window) {
     for (auto& player: players) {
         player->draw(window);
+    }
+}
+
+void GameManager::drawBombs(sf::RenderWindow &window) {
+    for (auto& bomb: bombs) {
+        bomb->draw(window);
     }
 }
 
@@ -93,4 +99,8 @@ bool GameManager::isNextCaseFree(sf::Vector2i indexes, int direction) {
 
 sf::Vector2f GameManager::translatePositionIndexes(int positionIndexX, int positionIndexY) {
     return sf::Vector2f { availablePositions[positionIndexY][positionIndexX] };
+}
+
+void GameManager::placeBomb(int indexPositionX, int indexPositionY) {
+    bombs.push_back(std::make_unique<Bomb>(indexPositionX, indexPositionY));
 }

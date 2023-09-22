@@ -22,7 +22,7 @@ void Player::draw(sf::RenderWindow& window) {
 void Player::update(const sf::Time deltaTime) {
     if (!isTravelling) {
         clockTravel.restart();
-        move(deltaTime);
+        move();
     }
     else {
         travelling += clockTravel.restart();
@@ -32,9 +32,13 @@ void Player::update(const sf::Time deltaTime) {
         }
     }
     playAnimation(deltaTime);
+
+    if (sf::Keyboard::isKeyPressed(sf::Keyboard::Space)) {
+        GameManager::placeBomb(currentPositionIndexes.x, currentPositionIndexes.y);
+    }
 }
 
-void Player::move(const sf::Time deltaTime) {
+void Player::move() {
     if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up)) {
         isTravelling = true;
         animation.y = Direction::Up;
