@@ -4,13 +4,15 @@
 
 #include "Player.h"
 #include "ResourcesManager.h"
+#include "GameManager.h"
 
-Player::Player(sf::Vector2f position) {
+Player::Player(int indexPositionX, int indexPositionY) {
     sprite.setTexture(ResourcesManager<sf::Texture>::getResource("resources/player.png"));
     sprite.setTextureRect(sf::IntRect({animation.x * SPRITE_SIZE.x, animation.y * SPRITE_SIZE.y},
                                       {SPRITE_SIZE.x, SPRITE_SIZE.y}));
     sprite.setOrigin(sprite.getGlobalBounds().width / 2, sprite.getGlobalBounds().height / 2);
-    sprite.setPosition(position);
+    currentPositionIndexes = {indexPositionX, indexPositionY };
+    sprite.setPosition(GameManager::translatePositionIndexes(indexPositionX, indexPositionY));
 }
 
 void Player::draw(sf::RenderWindow& window) {
@@ -23,33 +25,33 @@ void Player::update(const sf::Time deltaTime) {
 }
 
 void Player::move(const sf::Time deltaTime) {
-    sf::Vector2f movement = {0.f, 0.f};
     if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up)) {
         animation.y = Direction::Up;
-        movement += {0.f, -speed};
+        if (GameManager::isNextCaseFree(currentPositionIndexes, GameManager::DIRECTIONS::Up)) {
+            currentPositionIndexes = { currentPositionIndexes.x, currentPositionIndexes.y - 1 };
+        }
     }
     else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Down)) {
         animation.y = Direction::Down;
-        movement += {0.f, speed};
+        if (GameManager::isNextCaseFree(currentPositionIndexes, GameManager::DIRECTIONS::Down)) {
+            currentPositionIndexes = { currentPositionIndexes.x, currentPositionIndexes.y + 1 };
+        }
     }
     else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left)) {
         animation.y = Direction::Side;
         sprite.setScale(-1.f, 1.f);
-        movement += {-speed, 0.f};
+        if (GameManager::isNextCaseFree(currentPositionIndexes, GameManager::DIRECTIONS::Left)) {
+            currentPositionIndexes = { currentPositionIndexes.x - 1, currentPositionIndexes.y };
+        }
     }
     else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right)) {
         animation.y = Direction::Side;
         sprite.setScale(1.f, 1.f);
-        movement += {speed, 0.f};
+        if (GameManager::isNextCaseFree(currentPositionIndexes, GameManager::DIRECTIONS::Right)) {
+            currentPositionIndexes = { currentPositionIndexes.x + 1, currentPositionIndexes.y };
+        }
     }
-    sf::Vector2f idle = {0.f, 0.f}; // for some reason I could not check equality with { 0.f, 0.f }
-    if (movement != idle) {               // so I did this messy looking stuff.
-        isIdle = false;
-        sprite.move(movement * deltaTime.asSeconds());
-    }
-    else {
-        isIdle = true;
-    }
+    sprite.setPosition(GameManager::translatePositionIndexes(currentPositionIndexes.x, currentPositionIndexes.y));
 }
 
 void Player::playAnimation(const sf::Time deltaTime) {

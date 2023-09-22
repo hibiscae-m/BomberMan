@@ -17,8 +17,7 @@ static std::vector<std::unique_ptr<Player>> players;
 static std::vector<std::unique_ptr<GameTile>> gameTiles;
 static std::vector<std::vector<int>> mapLoaded;
 static sf::Vector2i mapSize;
-static std::vector<sf::Vector2f> availablePositions;
-static std::vector<sf::Vector2f> startPositions;
+static std::vector<std::vector<sf::Vector2f>> availablePositions;
 
 class GameManager {
 public:
@@ -28,9 +27,17 @@ public:
     static void drawMap(sf::RenderWindow& window);
     static void drawPlayers(sf::RenderWindow& window);
     static void update(sf::Time deltaTime);
+    static bool isNextCaseFree(sf::Vector2i indexes, int direction);
+    static sf::Vector2f translatePositionIndexes(int positionIndexX, int positionIndexY);
     enum MAP {
         First,
         Second
+    };
+    enum DIRECTIONS {
+        Up,
+        Down,
+        Left,
+        Right
     };
 };
 

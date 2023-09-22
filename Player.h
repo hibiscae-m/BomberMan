@@ -9,7 +9,8 @@
 
 class Player {
 public:
-    explicit Player(sf::Vector2f position = {100, 100});
+    Player() = delete;
+    Player(int indexPositionX, int indexPositionY);
     void draw(sf::RenderWindow& window);
     void update(sf::Time deltaTime);
 private:
@@ -23,6 +24,7 @@ private:
     sf::Time animationTimePerFrame = sf::seconds(1.f/7);
     sf::Time timeSinceLastUpdate = sf::Time::Zero;
     float speed = 150.f;
+    sf::Vector2i currentPositionIndexes;
 };
 
 
