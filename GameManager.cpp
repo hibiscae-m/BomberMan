@@ -35,7 +35,7 @@ void GameManager::loadMap(int map) {
         for (int j = 0; j < mapLoaded[i].size(); j++) {
             gameTiles.push_back(std::make_unique<GameTile>(tileSetLocation, sizePerTile,
                                                            mapLoaded[i][j], 0,
-                                                           j * sizePerTile, i * sizePerTile, true));
+                                                           j * sizePerTile, i * sizePerTile));
             positionsBuffer.emplace_back( gameTiles[gameTiles.size() - 1]->getPosition().x + static_cast<float>(sizePerTile) / 2,
                                          gameTiles[gameTiles.size() - 1]->getPosition().y + static_cast<float>(sizePerTile) / 2 );
         }
@@ -142,6 +142,6 @@ void GameManager::drawExplosions(sf::RenderWindow &window) {
     }
 }
 
-void GameManager::placeExplosion(int indexPositionX, int indexPositionY, Explosion* parent, int counter, int direction) {
-    explosions.push_back(std::make_unique<Explosion>(indexPositionX, indexPositionY, parent, counter, direction));
+void GameManager::placeExplosion(int indexPositionX, int indexPositionY, int counter, int direction) {
+    explosions.push_back(std::make_unique<Explosion>(indexPositionX, indexPositionY, counter, direction));
 }

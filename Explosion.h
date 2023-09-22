@@ -10,7 +10,7 @@
 class Explosion {
 public:
     Explosion() = delete;
-    Explosion(int indexPositionX, int indexPositionY, Explosion* parent = nullptr, int counter = 0, int direction = 0);
+    Explosion(int indexPositionX, int indexPositionY, int counter = 0, int direction = 0);
     void draw(sf::RenderWindow& window);
     void update(sf::Time deltaTime);
     sf::Vector2i getCurrentPositionIndexes();

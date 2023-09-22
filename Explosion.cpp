@@ -6,7 +6,7 @@
 #include "ResourcesManager.h"
 #include "GameManager.h"
 
-Explosion::Explosion(int indexPositionX, int indexPositionY, Explosion *parent, int counter, int direction) {
+Explosion::Explosion(int indexPositionX, int indexPositionY, int counter, int direction) {
     sprite.setTexture(ResourcesManager<sf::Texture>::getResource("resources/explosion.png"));
     sprite.setTextureRect(sf::IntRect({SPRITE_SIZE.x * counter, 0},{SPRITE_SIZE.x, SPRITE_SIZE.y}));
     sprite.setOrigin(sprite.getGlobalBounds().width / 2, sprite.getGlobalBounds().height / 2);
@@ -14,16 +14,16 @@ Explosion::Explosion(int indexPositionX, int indexPositionY, Explosion *parent, 
     counter++;
     if (counter == 1) {
         if (GameManager::isNextCaseFree({indexPositionX, indexPositionY}, GameManager::DIRECTIONS::Up)) {
-            GameManager::placeExplosion(indexPositionX, indexPositionY, this, counter, GameManager::DIRECTIONS::Up);
+            GameManager::placeExplosion(indexPositionX, indexPositionY, counter, GameManager::DIRECTIONS::Up);
         }
         if (GameManager::isNextCaseFree({indexPositionX, indexPositionY}, GameManager::DIRECTIONS::Down)) {
-            GameManager::placeExplosion(indexPositionX, indexPositionY, this, counter, GameManager::DIRECTIONS::Down);
+            GameManager::placeExplosion(indexPositionX, indexPositionY, counter, GameManager::DIRECTIONS::Down);
         }
         if (GameManager::isNextCaseFree({indexPositionX, indexPositionY}, GameManager::DIRECTIONS::Left)) {
-            GameManager::placeExplosion(indexPositionX, indexPositionY, this, counter, GameManager::DIRECTIONS::Left);
+            GameManager::placeExplosion(indexPositionX, indexPositionY, counter, GameManager::DIRECTIONS::Left);
         }
         if (GameManager::isNextCaseFree({indexPositionX, indexPositionY}, GameManager::DIRECTIONS::Right)) {
-            GameManager::placeExplosion(indexPositionX, indexPositionY, this, counter, GameManager::DIRECTIONS::Right);
+            GameManager::placeExplosion(indexPositionX, indexPositionY, counter, GameManager::DIRECTIONS::Right);
         }
     }
     else {
@@ -44,7 +44,7 @@ Explosion::Explosion(int indexPositionX, int indexPositionY, Explosion *parent, 
         }
         if (counter <= 2) {
             if (GameManager::isNextCaseFree({indexPositionX, indexPositionY}, direction)) {
-                GameManager::placeExplosion(indexPositionX, indexPositionY, this, counter, direction);
+                GameManager::placeExplosion(indexPositionX, indexPositionY, counter, direction);
             }
         }
     }

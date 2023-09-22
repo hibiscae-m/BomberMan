@@ -34,7 +34,7 @@ public:
     static void drawBombs(sf::RenderWindow& window);
     static void drawExplosions(sf::RenderWindow& window);
     static void placeBomb(int indexPositionX, int indexPositionY);
-    static void placeExplosion(int indexPositionX, int indexPositionY, Explosion* parent = nullptr, int counter = 0, int direction = 0);
+    static void placeExplosion(int indexPositionX, int indexPositionY, int counter = 0, int direction = 0);
     static void update(sf::Time deltaTime);
     static void clear();
     static bool isNextCaseFree(sf::Vector2i indexes, int direction);

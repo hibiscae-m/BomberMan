@@ -11,13 +11,10 @@
 class GameTile {
 public:
     GameTile() = delete;
-    GameTile(std::string_view textureLocation, int sizePerTile, int tilePosX, int tilePosY,
-             int posX, int posY, bool passable);
+    GameTile(std::string_view textureLocation, int sizePerTile, int tilePosX, int tilePosY, int posX, int posY);
     void draw(sf::RenderWindow& window);
-    bool getIfPassable() const { return isPassable; };
     sf::Vector2f getPosition();
 private:
-    bool isPassable;
     sf::Sprite sprite;
 };
 
