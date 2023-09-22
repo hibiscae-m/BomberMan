@@ -20,24 +20,37 @@ void Player::draw(sf::RenderWindow& window) {
 }
 
 void Player::update(const sf::Time deltaTime) {
-    move(deltaTime);
+    if (!isTravelling) {
+        clockTravel.restart();
+        move(deltaTime);
+    }
+    else {
+        travelling += clockTravel.restart();
+        if (travelling >= travelTime) {
+            isTravelling = false;
+            travelling = sf::Time::Zero;
+        }
+    }
     playAnimation(deltaTime);
 }
 
 void Player::move(const sf::Time deltaTime) {
     if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up)) {
+        isTravelling = true;
         animation.y = Direction::Up;
         if (GameManager::isNextCaseFree(currentPositionIndexes, GameManager::DIRECTIONS::Up)) {
             currentPositionIndexes = { currentPositionIndexes.x, currentPositionIndexes.y - 1 };
         }
     }
     else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Down)) {
+        isTravelling = true;
         animation.y = Direction::Down;
         if (GameManager::isNextCaseFree(currentPositionIndexes, GameManager::DIRECTIONS::Down)) {
             currentPositionIndexes = { currentPositionIndexes.x, currentPositionIndexes.y + 1 };
         }
     }
     else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left)) {
+        isTravelling = true;
         animation.y = Direction::Side;
         sprite.setScale(-1.f, 1.f);
         if (GameManager::isNextCaseFree(currentPositionIndexes, GameManager::DIRECTIONS::Left)) {
@@ -45,6 +58,7 @@ void Player::move(const sf::Time deltaTime) {
         }
     }
     else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right)) {
+        isTravelling = true;
         animation.y = Direction::Side;
         sprite.setScale(1.f, 1.f);
         if (GameManager::isNextCaseFree(currentPositionIndexes, GameManager::DIRECTIONS::Right)) {
@@ -58,7 +72,7 @@ void Player::playAnimation(const sf::Time deltaTime) {
     timeSinceLastUpdate += deltaTime;
     if (timeSinceLastUpdate > animationTimePerFrame) {
         timeSinceLastUpdate -= animationTimePerFrame;
-        if (isIdle) {
+        if (!isTravelling) {
             animation = {6, Direction::Down};
         }
         else {

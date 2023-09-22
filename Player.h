@@ -25,6 +25,11 @@ private:
     sf::Time timeSinceLastUpdate = sf::Time::Zero;
     float speed = 150.f;
     sf::Vector2i currentPositionIndexes;
+
+    sf::Time travelTime = sf::milliseconds(200);
+    sf::Time travelling = sf::Time::Zero;
+    bool isTravelling = false;
+    sf::Clock clockTravel;
 };
 
 
