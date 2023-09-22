@@ -70,6 +70,9 @@ void GameManager::update(sf::Time deltaTime) {
     for (auto& bomb: bombs) {
         bomb->update(deltaTime);
     }
+    for (auto& explosion: explosions) {
+        explosion->update(deltaTime);
+    }
 }
 
 bool GameManager::isNextCaseFree(sf::Vector2i indexes, int direction) {
@@ -126,4 +129,19 @@ void GameManager::clear() {
             bombs.erase(bombs.begin() + i);
         }
     }
+    for (auto i = 0u; i < explosions.size(); i++) {
+        if (explosions[i]->isDestructed()) {
+            explosions.erase(explosions.begin() + i);
+        }
+    }
+}
+
+void GameManager::drawExplosions(sf::RenderWindow &window) {
+    for (auto& explosion: explosions) {
+        explosion->draw(window);
+    }
+}
+
+void GameManager::placeExplosion(int indexPositionX, int indexPositionY, Explosion* parent, int counter, int direction) {
+    explosions.push_back(std::make_unique<Explosion>(indexPositionX, indexPositionY, parent, counter, direction));
 }

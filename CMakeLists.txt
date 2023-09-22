@@ -19,6 +19,8 @@ add_executable(BomberMan main.cpp
         MapFirst.cpp
         Bomb.cpp
         Bomb.h
+        Explosion.cpp
+        Explosion.h
 )
 
 find_package(SFML COMPONENTS system window graphics audio CONFIG REQUIRED)

@@ -43,5 +43,6 @@ void Game::draw() {
     GameManager::drawMap(window);
     GameManager::drawBombs(window);
     GameManager::drawPlayers(window);
+    GameManager::drawExplosions(window);
     window.display();
 }

@@ -20,6 +20,7 @@ void Bomb::draw(sf::RenderWindow &window) {
 void Bomb::update(sf::Time deltaTime) {
     timeSinceSpawned += deltaTime;
     if (timeSinceSpawned >= lifetime) {
+        GameManager::placeExplosion(currentPositionIndexes.x, currentPositionIndexes.y);
         destructed = true;
     }
     if (timeSinceSpawned > lifetime / 2.f) {

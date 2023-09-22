@@ -13,10 +13,12 @@
 #include "WindowSettings.h"
 #include "Player.h"
 #include "Bomb.h"
+#include "Explosion.h"
 
 static std::vector<std::unique_ptr<Player>> players;
 static std::vector<std::unique_ptr<Bomb>> bombs;
 static std::vector<sf::Vector2i> bombs_locations;
+static std::vector<std::unique_ptr<Explosion>> explosions;
 static std::vector<std::unique_ptr<GameTile>> gameTiles;
 static std::vector<std::vector<int>> mapLoaded;
 static sf::Vector2i mapSize;
@@ -30,7 +32,9 @@ public:
     static void drawMap(sf::RenderWindow& window);
     static void drawPlayers(sf::RenderWindow& window);
     static void drawBombs(sf::RenderWindow& window);
+    static void drawExplosions(sf::RenderWindow& window);
     static void placeBomb(int indexPositionX, int indexPositionY);
+    static void placeExplosion(int indexPositionX, int indexPositionY, Explosion* parent = nullptr, int counter = 0, int direction = 0);
     static void update(sf::Time deltaTime);
     static void clear();
     static bool isNextCaseFree(sf::Vector2i indexes, int direction);
