@@ -13,7 +13,6 @@ Explosion::Explosion(int indexPositionX, int indexPositionY, int counter, int di
     sprite.setTextureRect(sf::IntRect({SPRITE_SIZE.x * counter, 0},{SPRITE_SIZE.x, SPRITE_SIZE.y}));
     sprite.setOrigin(sprite.getGlobalBounds().width / 2, sprite.getGlobalBounds().height / 2);
     sprite.setPosition(GameManager::translatePositionIndexes(currentPositionIndexes.x, currentPositionIndexes.y));
-    GameManager::damageIndex(currentPositionIndexes.x, currentPositionIndexes.y);
     counter++;
     sf::Vector2i nextPositionIndexes = currentPositionIndexes;
     switch (direction) {
@@ -59,6 +58,7 @@ void Explosion::draw(sf::RenderWindow &window) {
 }
 
 void Explosion::update(sf::Time deltaTime) {
+    GameManager::damageIndex(currentPositionIndexes.x, currentPositionIndexes.y);
     timeSinceSpawned += deltaTime;
     if (timeSinceSpawned >= lifetime) {
         destructed = true;
